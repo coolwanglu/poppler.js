@@ -1,15 +1,53 @@
 #!/bin/bash
 EM_DIR=~/src/emscripten
+BASE_DIR=`pwd`
+ZLIB_DIR=$EM_DIR/tests/zlib
+LIBPNG_DIR=$BASE_DIR/libpng-1.6.7
+FREETYPE_DIR=$EM_DIR/tests/freetype
 
+do_zlib() {
+pushd $ZLIB_DIR
+$EM_DIR/emconfigure ./configure \
+
+$EM_DIR/emmake make
+popd
+}
+
+do_libpng () {
+pushd $LIBPNG_DIR
+CPPFLAGS=-I$ZLIB_DIR \
+$EM_DIR/emconfigure ./configure \
+    --enable-shared=no \
+
+$EM_DIR/emmake make
+popd
+}
+
+do_freetype () {
+pushd $FREETYPE_DIR
+$EM_DIR/emconfigure ./configure \
+    --enable-shared=no \
+
+$EM_DIR/emmake make
+popd
+}
+
+do_poppler () {
+pushd poppler
+CPPFLAGS="-I$BASE_DIR/libpng-1.6.7" \
+LIBPNG_CFLAGS="-I$BASE_DIR/libpng-1.6.7" \
+LIBPNG_LIBS=' ' \
 FONTCONFIG_CFLAGS=' ' \
 FONTCONFIG_LIBS=' ' \
+FREETYPE_CFLAGS="-I$EM_DIR/tests/freetype/include" \
+FREETYPE_LIBS=' ' \
 $EM_DIR/emconfigure ./configure \
     --enable-shared=no \
     --disable-libopenjpeg \
     --disable-libtiff \
     --disable-largefile \
     --disable-libjpeg \
-    --disable-libpng \
+    --enable-libpng \
     --disable-cairo-output \
     --disable-poppler-glib \
     --disable-gtk-doc \
@@ -21,11 +59,30 @@ $EM_DIR/emconfigure ./configure \
     --enable-cms=none \
     --without-x \
 
-
 $EM_DIR/emmake make
+popd
+}
 
+
+do_link () {
 mkdir web || true
 pushd web
-$EM_DIR/emcc -O2 ../utils/pdftoppm.o ../poppler/.libs/libpoppler.a ../utils/parseargs.o -o pdftoppm.js
-popd
+$EM_DIR/emcc \
+    -O1 \
+    ../poppler/utils/pdftoppm.o \
+    ../poppler/poppler/.libs/libpoppler.a \
+    ../poppler/utils/parseargs.o \
+    $LIBPNG_DIR/.libs/libpng16.a \
+    $ZLIB_DIR/libz.a \
+    $FREETYPE_DIR/objs/.libs/libfreetype.a \
+    -o pdftoppm.js \
+    --embed-file paper.pdf \
 
+popd
+}
+
+#do_zlib
+#do_libpng
+#do_freetype
+do_poppler
+do_link
