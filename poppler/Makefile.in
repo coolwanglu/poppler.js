@@ -14,7 +14,6 @@
 
 @SET_MAKE@
 
-
 VPATH = @srcdir@
 am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
 am__make_running_with_option = \
@@ -79,10 +78,25 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-subdir = poppler
+subdir = .
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(srcdir)/poppler-config.h.in $(top_srcdir)/depcomp \
-	$(am__poppler_include_HEADERS_DIST)
+	$(top_srcdir)/configure $(am__configure_deps) \
+	$(srcdir)/config.h.in $(srcdir)/poppler.pc.in \
+	$(srcdir)/poppler-uninstalled.pc.in \
+	$(srcdir)/poppler-cairo.pc.in \
+	$(srcdir)/poppler-cairo-uninstalled.pc.in \
+	$(srcdir)/poppler-splash.pc.in \
+	$(srcdir)/poppler-splash-uninstalled.pc.in \
+	$(srcdir)/poppler-glib.pc.in \
+	$(srcdir)/poppler-glib-uninstalled.pc.in \
+	$(srcdir)/poppler-qt4.pc.in \
+	$(srcdir)/poppler-qt4-uninstalled.pc.in \
+	$(srcdir)/poppler-qt5.pc.in \
+	$(srcdir)/poppler-qt5-uninstalled.pc.in \
+	$(srcdir)/poppler-cpp.pc.in \
+	$(srcdir)/poppler-cpp-uninstalled.pc.in AUTHORS COPYING \
+	ChangeLog INSTALL NEWS README TODO config.guess config.sub \
+	depcomp install-sh missing ltmain.sh
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_pthread.m4 \
 	$(top_srcdir)/m4/define-dir.m4 $(top_srcdir)/m4/gtk-doc.m4 \
@@ -93,10 +107,45 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/ax_pthread.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
+am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
+ configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_HEADER = $(top_builddir)/config.h poppler-config.h
-CONFIG_CLEAN_FILES =
+CONFIG_HEADER = config.h $(top_builddir)/poppler/poppler-config.h
+CONFIG_CLEAN_FILES = poppler.pc poppler-uninstalled.pc \
+	poppler-cairo.pc poppler-cairo-uninstalled.pc \
+	poppler-splash.pc poppler-splash-uninstalled.pc \
+	poppler-glib.pc poppler-glib-uninstalled.pc poppler-qt4.pc \
+	poppler-qt4-uninstalled.pc poppler-qt5.pc \
+	poppler-qt5-uninstalled.pc poppler-cpp.pc \
+	poppler-cpp-uninstalled.pc
 CONFIG_CLEAN_VPATH_FILES =
+AM_V_P = $(am__v_P_@AM_V@)
+am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
+am__v_P_0 = false
+am__v_P_1 = :
+AM_V_GEN = $(am__v_GEN_@AM_V@)
+am__v_GEN_ = $(am__v_GEN_@AM_DEFAULT_V@)
+am__v_GEN_0 = @echo "  GEN     " $@;
+am__v_GEN_1 = 
+AM_V_at = $(am__v_at_@AM_V@)
+am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
+am__v_at_0 = @
+am__v_at_1 = 
+SOURCES =
+DIST_SOURCES =
+RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
+	ctags-recursive dvi-recursive html-recursive info-recursive \
+	install-data-recursive install-dvi-recursive \
+	install-exec-recursive install-html-recursive \
+	install-info-recursive install-pdf-recursive \
+	install-ps-recursive install-recursive installcheck-recursive \
+	installdirs-recursive pdf-recursive ps-recursive \
+	tags-recursive uninstall-recursive
+am__can_run_installinfo = \
+  case $$AM_UPDATE_INFO_DIR in \
+    n|no|NO) false;; \
+    *) (install-info --version) >/dev/null 2>&1;; \
+  esac
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -124,171 +173,18 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)" \
-	"$(DESTDIR)$(poppler_includedir)" \
-	"$(DESTDIR)$(poppler_includedir)"
-LTLIBRARIES = $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES)
-libpoppler_cairo_la_LIBADD =
-am__libpoppler_cairo_la_SOURCES_DIST = CairoFontEngine.cc \
-	CairoFontEngine.h CairoOutputDev.cc CairoOutputDev.h \
-	CairoRescaleBox.cc CairoRescaleBox.h
-@BUILD_CAIRO_OUTPUT_TRUE@am_libpoppler_cairo_la_OBJECTS =  \
-@BUILD_CAIRO_OUTPUT_TRUE@	CairoFontEngine.lo CairoOutputDev.lo \
-@BUILD_CAIRO_OUTPUT_TRUE@	CairoRescaleBox.lo
-libpoppler_cairo_la_OBJECTS = $(am_libpoppler_cairo_la_OBJECTS)
-AM_V_lt = $(am__v_lt_@AM_V@)
-am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
-am__v_lt_0 = --silent
-am__v_lt_1 = 
-@BUILD_CAIRO_OUTPUT_TRUE@am_libpoppler_cairo_la_rpath =
-am__DEPENDENCIES_1 =
-@USE_CMS_TRUE@am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1)
-@BUILD_SPLASH_OUTPUT_TRUE@am__DEPENDENCIES_3 =  \
-@BUILD_SPLASH_OUTPUT_TRUE@	$(top_builddir)/splash/libsplash.la
-@BUILD_LIBTIFF_TRUE@am__DEPENDENCIES_4 = $(am__DEPENDENCIES_1)
-@BUILD_LIBJPEG_TRUE@am__DEPENDENCIES_5 = $(am__DEPENDENCIES_1)
-@BUILD_LIBPNG_TRUE@am__DEPENDENCIES_6 = $(am__DEPENDENCIES_1)
-@BUILD_ZLIB_TRUE@am__DEPENDENCIES_7 = $(am__DEPENDENCIES_1)
-@BUILD_LIBCURL_TRUE@am__DEPENDENCIES_8 = $(am__DEPENDENCIES_1)
-@BUILD_LIBOPENJPEG_TRUE@am__DEPENDENCIES_9 = $(am__DEPENDENCIES_1)
-libpoppler_la_DEPENDENCIES = $(top_builddir)/goo/libgoo.la \
-	$(top_builddir)/fofi/libfofi.la $(am__DEPENDENCIES_2) \
-	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
-	$(am__DEPENDENCIES_5) $(am__DEPENDENCIES_6) \
-	$(am__DEPENDENCIES_7) $(am__DEPENDENCIES_8) \
-	$(am__DEPENDENCIES_9) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am__libpoppler_la_SOURCES_DIST = SplashOutputDev.cc DCTStream.h \
-	DCTStream.cc FlateStream.h FlateStream.cc JPXStream.h \
-	JPXStream.cc JPEG2000Stream.h JPEG2000Stream.cc \
-	CurlCachedFile.cc CurlPDFDocBuilder.cc Annot.cc Array.cc \
-	BuiltinFont.cc BuiltinFontTables.cc CachedFile.cc Catalog.cc \
-	CharCodeToUnicode.cc CMap.cc DateInfo.cc Decrypt.cc Dict.cc \
-	Error.cc FileSpec.cc FontEncodingTables.cc Form.cc FontInfo.cc \
-	Function.cc Gfx.cc GfxFont.cc GfxState.cc GlobalParams.cc \
-	Hints.cc JArithmeticDecoder.cc JBIG2Stream.cc Lexer.cc \
-	Linearization.cc Link.cc LocalPDFDocBuilder.cc Movie.cc \
-	NameToCharCode.cc Object.cc OptionalContent.cc Outline.cc \
-	OutputDev.cc Page.cc PageTransition.cc Parser.cc PDFDoc.cc \
-	PDFDocEncoding.cc PDFDocFactory.cc PopplerCache.cc \
-	ProfileData.cc PreScanOutputDev.cc PSTokenizer.cc Rendition.cc \
-	StdinCachedFile.cc StdinPDFDocBuilder.cc Stream.cc \
-	StructTreeRoot.cc StructElement.cc strtok_r.cpp UnicodeMap.cc \
-	UnicodeTypeTable.cc UTF.cc ViewerPreferences.cc XRef.cc \
-	PSOutputDev.cc TextOutputDev.cc PageLabelInfo.h \
-	PageLabelInfo.cc SecurityHandler.cc Sound.cc XpdfPluginAPI.cc
-@BUILD_SPLASH_OUTPUT_TRUE@am__objects_1 = SplashOutputDev.lo
-@BUILD_LIBJPEG_TRUE@am__objects_2 = DCTStream.lo
-@BUILD_ZLIB_TRUE@am__objects_3 = FlateStream.lo
-@BUILD_LIBOPENJPEG_FALSE@am__objects_4 = JPXStream.lo
-@BUILD_LIBOPENJPEG_TRUE@am__objects_4 = JPEG2000Stream.lo
-@BUILD_LIBCURL_TRUE@am__objects_5 = CurlCachedFile.lo \
-@BUILD_LIBCURL_TRUE@	CurlPDFDocBuilder.lo
-am_libpoppler_la_OBJECTS = $(am__objects_1) $(am__objects_2) \
-	$(am__objects_3) $(am__objects_4) $(am__objects_5) Annot.lo \
-	Array.lo BuiltinFont.lo BuiltinFontTables.lo CachedFile.lo \
-	Catalog.lo CharCodeToUnicode.lo CMap.lo DateInfo.lo Decrypt.lo \
-	Dict.lo Error.lo FileSpec.lo FontEncodingTables.lo Form.lo \
-	FontInfo.lo Function.lo Gfx.lo GfxFont.lo GfxState.lo \
-	GlobalParams.lo Hints.lo JArithmeticDecoder.lo JBIG2Stream.lo \
-	Lexer.lo Linearization.lo Link.lo LocalPDFDocBuilder.lo \
-	Movie.lo NameToCharCode.lo Object.lo OptionalContent.lo \
-	Outline.lo OutputDev.lo Page.lo PageTransition.lo Parser.lo \
-	PDFDoc.lo PDFDocEncoding.lo PDFDocFactory.lo PopplerCache.lo \
-	ProfileData.lo PreScanOutputDev.lo PSTokenizer.lo Rendition.lo \
-	StdinCachedFile.lo StdinPDFDocBuilder.lo Stream.lo \
-	StructTreeRoot.lo StructElement.lo strtok_r.lo UnicodeMap.lo \
-	UnicodeTypeTable.lo UTF.lo ViewerPreferences.lo XRef.lo \
-	PSOutputDev.lo TextOutputDev.lo PageLabelInfo.lo \
-	SecurityHandler.lo Sound.lo XpdfPluginAPI.lo
-libpoppler_la_OBJECTS = $(am_libpoppler_la_OBJECTS)
-libpoppler_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
-	$(AM_CXXFLAGS) $(CXXFLAGS) $(libpoppler_la_LDFLAGS) $(LDFLAGS) \
-	-o $@
-AM_V_P = $(am__v_P_@AM_V@)
-am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
-am__v_P_0 = false
-am__v_P_1 = :
-AM_V_GEN = $(am__v_GEN_@AM_V@)
-am__v_GEN_ = $(am__v_GEN_@AM_DEFAULT_V@)
-am__v_GEN_0 = @echo "  GEN     " $@;
-am__v_GEN_1 = 
-AM_V_at = $(am__v_at_@AM_V@)
-am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
-am__v_at_0 = @
-am__v_at_1 = 
-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
-depcomp = $(SHELL) $(top_srcdir)/depcomp
-am__depfiles_maybe = depfiles
-am__mv = mv -f
-CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-LTCXXCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) \
-	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
-	$(AM_CXXFLAGS) $(CXXFLAGS)
-AM_V_CXX = $(am__v_CXX_@AM_V@)
-am__v_CXX_ = $(am__v_CXX_@AM_DEFAULT_V@)
-am__v_CXX_0 = @echo "  CXX     " $@;
-am__v_CXX_1 = 
-CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
-	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
-am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
-am__v_CXXLD_0 = @echo "  CXXLD   " $@;
-am__v_CXXLD_1 = 
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
-	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
-	$(AM_CFLAGS) $(CFLAGS)
-AM_V_CC = $(am__v_CC_@AM_V@)
-am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
-am__v_CC_0 = @echo "  CC      " $@;
-am__v_CC_1 = 
-CCLD = $(CC)
-LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-AM_V_CCLD = $(am__v_CCLD_@AM_V@)
-am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
-am__v_CCLD_0 = @echo "  CCLD    " $@;
-am__v_CCLD_1 = 
-SOURCES = $(libpoppler_cairo_la_SOURCES) $(libpoppler_la_SOURCES)
-DIST_SOURCES = $(am__libpoppler_cairo_la_SOURCES_DIST) \
-	$(am__libpoppler_la_SOURCES_DIST)
-am__can_run_installinfo = \
-  case $$AM_UPDATE_INFO_DIR in \
-    n|no|NO) false;; \
-    *) (install-info --version) >/dev/null 2>&1;; \
-  esac
-am__poppler_include_HEADERS_DIST = SplashOutputDev.h CurlCachedFile.h \
-	CurlPDFDocBuilder.h Annot.h Array.h BuiltinFont.h \
-	BuiltinFontTables.h CachedFile.h Catalog.h CharCodeToUnicode.h \
-	CMap.h DateInfo.h Decrypt.h Dict.h Error.h FileSpec.h \
-	FontEncodingTables.h FontInfo.h Form.h Function.h Gfx.h \
-	GfxFont.h GfxState.h GfxState_helpers.h GlobalParams.h Hints.h \
-	JArithmeticDecoder.h JBIG2Stream.h Lexer.h Linearization.h \
-	Link.h LocalPDFDocBuilder.h Movie.h NameToCharCode.h Object.h \
-	OptionalContent.h Outline.h OutputDev.h Page.h \
-	PageTransition.h Parser.h PDFDoc.h PDFDocBuilder.h \
-	PDFDocEncoding.h PDFDocFactory.h PopplerCache.h ProfileData.h \
-	PreScanOutputDev.h PSTokenizer.h Rendition.h StdinCachedFile.h \
-	StdinPDFDocBuilder.h Stream-CCITT.h Stream.h StructElement.h \
-	StructTreeRoot.h UnicodeMap.h UnicodeMapTables.h \
-	UnicodeTypeTable.h UnicodeCClassTables.h UnicodeCompTables.h \
-	UnicodeDecompTables.h ViewerPreferences.h XRef.h CharTypes.h \
-	CompactFontTables.h ErrorCodes.h NameToUnicodeTable.h \
-	PSOutputDev.h TextOutputDev.h SecurityHandler.h UTF.h UTF8.h \
-	XpdfPluginAPI.h Sound.h
-HEADERS = $(nodist_poppler_include_HEADERS) $(poppler_include_HEADERS)
+am__installdirs = "$(DESTDIR)$(pkgconfigdir)"
+DATA = $(pkgconfig_DATA)
+RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
+  distclean-recursive maintainer-clean-recursive
+am__recursive_targets = \
+  $(RECURSIVE_TARGETS) \
+  $(RECURSIVE_CLEAN_TARGETS) \
+  $(am__extra_recursive_targets)
+AM_RECURSIVE_TARGETS = $(am__recursive_targets:-recursive=) TAGS CTAGS \
+	cscope distdir dist dist-all distcheck
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) \
-	$(LISP)poppler-config.h.in
+	$(LISP)config.h.in
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
 # *not* preserved.
@@ -307,7 +203,50 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
+CSCOPE = cscope
+DIST_SUBDIRS = goo fofi splash poppler utils glib test qt4 qt5 cpp
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+distdir = $(PACKAGE)-$(VERSION)
+top_distdir = $(distdir)
+am__remove_distdir = \
+  if test -d "$(distdir)"; then \
+    find "$(distdir)" -type d ! -perm -200 -exec chmod u+w {} ';' \
+      && rm -rf "$(distdir)" \
+      || { sleep 5 && rm -rf "$(distdir)"; }; \
+  else :; fi
+am__post_remove_distdir = $(am__remove_distdir)
+am__relativize = \
+  dir0=`pwd`; \
+  sed_first='s,^\([^/]*\)/.*$$,\1,'; \
+  sed_rest='s,^[^/]*/*,,'; \
+  sed_last='s,^.*/\([^/]*\)$$,\1,'; \
+  sed_butlast='s,/*[^/]*$$,,'; \
+  while test -n "$$dir1"; do \
+    first=`echo "$$dir1" | sed -e "$$sed_first"`; \
+    if test "$$first" != "."; then \
+      if test "$$first" = ".."; then \
+        dir2=`echo "$$dir0" | sed -e "$$sed_last"`/"$$dir2"; \
+        dir0=`echo "$$dir0" | sed -e "$$sed_butlast"`; \
+      else \
+        first2=`echo "$$dir2" | sed -e "$$sed_first"`; \
+        if test "$$first2" = "$$first"; then \
+          dir2=`echo "$$dir2" | sed -e "$$sed_rest"`; \
+        else \
+          dir2="../$$dir2"; \
+        fi; \
+        dir0="$$dir0"/"$$first"; \
+      fi; \
+    fi; \
+    dir1=`echo "$$dir1" | sed -e "$$sed_rest"`; \
+  done; \
+  reldir="$$dir2"
+DIST_ARCHIVES = $(distdir).tar.gz
+GZIP_ENV = --best
+DIST_TARGETS = dist-gzip
+distuninstallcheck_listfiles = find . -type f -print
+am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
+  | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
+distcleancheck_listfiles = find . -type f -print
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
@@ -324,13 +263,13 @@ CAIRO_REQ = @CAIRO_REQ@
 CAIRO_VERSION = @CAIRO_VERSION@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
-CFLAGS = @CFLAGS@ $(PTHREAD_CFLAGS)
+CFLAGS = @CFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
-CXXFLAGS = @CXXFLAGS@ $(PTHREAD_CFLAGS)
+CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
@@ -517,555 +456,236 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 win32_libs = @win32_libs@
-@BUILD_SPLASH_OUTPUT_TRUE@splash_sources = \
-@BUILD_SPLASH_OUTPUT_TRUE@	SplashOutputDev.cc
+ACLOCAL_AMFLAGS = -I m4
+DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --with-testdatadir=$(TESTDATADIR)
+@BUILD_SPLASH_OUTPUT_TRUE@splash_subdir = splash
+@BUILD_SPLASH_OUTPUT_TRUE@splash_pc_file = poppler-splash.pc
+@BUILD_CAIRO_OUTPUT_TRUE@cairo_pc_file = poppler-cairo.pc
+@BUILD_POPPLER_GLIB_TRUE@glib_subdir = glib
+@BUILD_POPPLER_GLIB_TRUE@glib_pc_file = poppler-glib.pc
+@BUILD_POPPLER_QT5_TRUE@qt5_subdir = qt5
+@BUILD_POPPLER_QT5_TRUE@qt5_pc_file = poppler-qt5.pc
+@BUILD_POPPLER_QT4_TRUE@qt4_subdir = qt4
+@BUILD_POPPLER_QT4_TRUE@qt4_pc_file = poppler-qt4.pc
+@BUILD_POPPLER_CPP_TRUE@cpp_subdir = cpp
+@BUILD_POPPLER_CPP_TRUE@cpp_pc_file = poppler-cpp.pc
+@BUILD_UTILS_TRUE@utils_subdir = utils
+SUBDIRS = goo fofi $(splash_subdir) poppler $(utils_subdir) $(glib_subdir) test $(qt4_subdir) $(qt5_subdir) $(cpp_subdir)
 
-@BUILD_SPLASH_OUTPUT_TRUE@splash_headers = \
-@BUILD_SPLASH_OUTPUT_TRUE@	SplashOutputDev.h
+# Add CMake buildsystem files here so they get added on make dist
+EXTRA_DIST = README-XPDF poppler.pc.in poppler-uninstalled.pc.in \
+	poppler-cairo.pc.in poppler-cairo-uninstalled.pc.in \
+	poppler-splash.pc.in poppler-splash-uninstalled.pc.in \
+	poppler-qt4.pc.in poppler-qt4-uninstalled.pc.in \
+	poppler-qt5.pc.in poppler-qt5-uninstalled.pc.in \
+	poppler-cpp.pc.in poppler-cpp-uninstalled.pc.in \
+	cpp/tests/CMakeLists.txt cpp/CMakeLists.txt \
+	glib/demo/CMakeLists.txt glib/CMakeLists.txt \
+	glib/poppler-features.h.cmake qt4/src/CMakeLists.txt \
+	qt4/tests/CMakeLists.txt qt4/CMakeLists.txt \
+	qt4/demos/CMakeLists.txt qt5/src/CMakeLists.txt \
+	qt5/tests/CMakeLists.txt qt5/CMakeLists.txt \
+	qt5/demos/CMakeLists.txt test/CMakeLists.txt \
+	utils/CMakeLists.txt CMakeLists.txt ConfigureChecks.cmake \
+	cmake/modules/CheckFileOffsetBits.c \
+	cmake/modules/CheckFileOffsetBits.cmake \
+	cmake/modules/COPYING-CMAKE-SCRIPTS \
+	cmake/modules/FindCairo.cmake \
+	cmake/modules/FindFontconfig.cmake \
+	cmake/modules/FindGLIB.cmake \
+	cmake/modules/FindGObjectIntrospection.cmake \
+	cmake/modules/FindGTK.cmake cmake/modules/FindIconv.cmake \
+	cmake/modules/FindLCMS.cmake cmake/modules/FindLCMS2.cmake \
+	cmake/modules/FindQt4.cmake \
+	cmake/modules/GObjectIntrospectionMacros.cmake \
+	cmake/modules/MacroBoolTo01.cmake \
+	cmake/modules/MacroEnsureVersion.cmake \
+	cmake/modules/MacroOptionalFindPackage.cmake \
+	cmake/modules/MacroPushRequiredVars.cmake \
+	cmake/modules/PopplerDefaults.cmake \
+	cmake/modules/PopplerMacros.cmake \
+	cmake/modules/FindLIBOPENJPEG.cmake config.h.cmake \
+	poppler-cairo.pc.cmake poppler/poppler-config.h.cmake \
+	poppler-cpp.pc.cmake poppler-glib.pc.cmake \
+	poppler-qt4.pc.cmake poppler-qt5.pc.cmake \
+	poppler-splash.pc.cmake poppler.pc.cmake
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = \
+	poppler.pc				\
+	$(cairo_pc_file)			\
+	$(splash_pc_file)			\
+	$(glib_pc_file)				\
+	$(qt4_pc_file)				\
+	$(qt5_pc_file)				\
+	$(cpp_pc_file)
 
-@BUILD_SPLASH_OUTPUT_TRUE@splash_includes = \
-@BUILD_SPLASH_OUTPUT_TRUE@	$(SPLASH_CFLAGS)
-
-@BUILD_SPLASH_OUTPUT_TRUE@splash_libs = \
-@BUILD_SPLASH_OUTPUT_TRUE@	$(SPLASH_LIBS)				\
-@BUILD_SPLASH_OUTPUT_TRUE@	$(top_builddir)/splash/libsplash.la
-
-@BUILD_CAIRO_OUTPUT_TRUE@poppler_cairo = libpoppler-cairo.la
-@BUILD_CAIRO_OUTPUT_TRUE@cairo_includes = \
-@BUILD_CAIRO_OUTPUT_TRUE@	$(CAIRO_CFLAGS)
-
-@BUILD_CAIRO_OUTPUT_TRUE@cairo_libs = \
-@BUILD_CAIRO_OUTPUT_TRUE@	$(CAIRO_LIBS)
-
-@BUILD_CAIRO_OUTPUT_TRUE@libpoppler_cairo_la_SOURCES = \
-@BUILD_CAIRO_OUTPUT_TRUE@	CairoFontEngine.cc			\
-@BUILD_CAIRO_OUTPUT_TRUE@	CairoFontEngine.h			\
-@BUILD_CAIRO_OUTPUT_TRUE@	CairoOutputDev.cc			\
-@BUILD_CAIRO_OUTPUT_TRUE@	CairoOutputDev.h			\
-@BUILD_CAIRO_OUTPUT_TRUE@	CairoRescaleBox.cc			\
-@BUILD_CAIRO_OUTPUT_TRUE@	CairoRescaleBox.h
-
-@BUILD_LIBJPEG_TRUE@libjpeg_sources = \
-@BUILD_LIBJPEG_TRUE@	DCTStream.h				\
-@BUILD_LIBJPEG_TRUE@	DCTStream.cc
-
-@BUILD_LIBJPEG_TRUE@libjpeg_libs = \
-@BUILD_LIBJPEG_TRUE@	$(LIBJPEG_LIBS)
-
-@BUILD_LIBJPEG_TRUE@libjpeg_includes = \
-@BUILD_LIBJPEG_TRUE@	$(LIBJPEG_CFLAGS)
-
-@BUILD_LIBPNG_TRUE@libpng_libs = \
-@BUILD_LIBPNG_TRUE@	$(LIBPNG_LIBS)
-
-@BUILD_LIBPNG_TRUE@libpng_includes = \
-@BUILD_LIBPNG_TRUE@	$(LIBPNG_CFLAGS)
-
-@BUILD_LIBTIFF_TRUE@libtiff_libs = \
-@BUILD_LIBTIFF_TRUE@	$(LIBTIFF_LIBS)
-
-@BUILD_LIBTIFF_TRUE@libtiff_includes = \
-@BUILD_LIBTIFF_TRUE@	$(LIBTIFF_CFLAGS)
-
-@BUILD_LIBOPENJPEG_FALSE@libjpeg2000_sources = \
-@BUILD_LIBOPENJPEG_FALSE@	JPXStream.h			\
-@BUILD_LIBOPENJPEG_FALSE@	JPXStream.cc
-
-@BUILD_LIBOPENJPEG_TRUE@libjpeg2000_sources = \
-@BUILD_LIBOPENJPEG_TRUE@	JPEG2000Stream.h			\
-@BUILD_LIBOPENJPEG_TRUE@	JPEG2000Stream.cc
-
-@BUILD_LIBOPENJPEG_TRUE@libjpeg2000_libs = \
-@BUILD_LIBOPENJPEG_TRUE@	$(LIBOPENJPEG_LIBS)
-
-@BUILD_LIBOPENJPEG_TRUE@libjpeg2000_includes = \
-@BUILD_LIBOPENJPEG_TRUE@	$(LIBOPENJPEG_CFLAGS)
-
-@BUILD_ZLIB_TRUE@zlib_sources = \
-@BUILD_ZLIB_TRUE@	FlateStream.h				\
-@BUILD_ZLIB_TRUE@	FlateStream.cc
-
-@BUILD_ZLIB_TRUE@zlib_libs = \
-@BUILD_ZLIB_TRUE@	$(ZLIB_LIBS)
-
-@BUILD_LIBCURL_TRUE@libcurl_libs = \
-@BUILD_LIBCURL_TRUE@	$(LIBCURL_LIBS)
-
-@BUILD_LIBCURL_TRUE@libcurl_includes = \
-@BUILD_LIBCURL_TRUE@	$(LIBCURL_CFLAGS)
-
-@BUILD_LIBCURL_TRUE@curl_headers = \
-@BUILD_LIBCURL_TRUE@	CurlCachedFile.h			\
-@BUILD_LIBCURL_TRUE@	CurlPDFDocBuilder.h
-
-@BUILD_LIBCURL_TRUE@curl_sources = \
-@BUILD_LIBCURL_TRUE@	CurlCachedFile.cc			\
-@BUILD_LIBCURL_TRUE@	CurlPDFDocBuilder.cc
-
-@USE_CMS_TRUE@cms_includes = $(LCMS_CFLAGS)
-@USE_CMS_TRUE@cms_libs = $(LCMS_LIBS)
-INCLUDES = \
-	-I$(top_srcdir)				\
-	-I$(top_srcdir)/goo			\
-	$(cms_includes)				\
-	$(splash_includes)			\
-	$(cairo_includes)			\
-	$(libjpeg_includes)			\
-	$(libtiff_includes)			\
-	$(libjpeg2000_includes)			\
-	$(libpng_includes)			\
-	$(libcurl_includes)			\
-	$(FREETYPE_CFLAGS)			\
-	$(FONTCONFIG_CFLAGS)
-
-lib_LTLIBRARIES = libpoppler.la
-noinst_LTLIBRARIES = $(poppler_cairo)
-libpoppler_la_LIBADD = \
-	$(top_builddir)/goo/libgoo.la		\
-	$(top_builddir)/fofi/libfofi.la		\
-	$(cms_libs)				\
-	$(splash_libs)				\
-	$(libtiff_libs)				\
-	$(libjpeg_libs)				\
-	$(libpng_libs)				\
-	$(zlib_libs)				\
-	$(libcurl_libs)				\
-	$(libjpeg2000_libs)			\
-	$(FREETYPE_LIBS)			\
-	$(FONTCONFIG_LIBS)			\
-	$(PTHREAD_LIBS)				\
-	$(win32_libs)
-
-libpoppler_la_LDFLAGS = -version-info 43:0:0 @create_shared_lib@ @auto_import_flags@
-@ENABLE_XPDF_HEADERS_TRUE@poppler_includedir = $(includedir)/poppler
-@ENABLE_XPDF_HEADERS_TRUE@poppler_include_HEADERS = \
-@ENABLE_XPDF_HEADERS_TRUE@	$(splash_headers)	\
-@ENABLE_XPDF_HEADERS_TRUE@	$(curl_headers)		\
-@ENABLE_XPDF_HEADERS_TRUE@	Annot.h			\
-@ENABLE_XPDF_HEADERS_TRUE@	Array.h			\
-@ENABLE_XPDF_HEADERS_TRUE@	BuiltinFont.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	BuiltinFontTables.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	CachedFile.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	Catalog.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	CharCodeToUnicode.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	CMap.h			\
-@ENABLE_XPDF_HEADERS_TRUE@	DateInfo.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	Decrypt.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	Dict.h			\
-@ENABLE_XPDF_HEADERS_TRUE@	Error.h			\
-@ENABLE_XPDF_HEADERS_TRUE@	FileSpec.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	FontEncodingTables.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	FontInfo.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	Form.h 			\
-@ENABLE_XPDF_HEADERS_TRUE@	Function.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	Gfx.h			\
-@ENABLE_XPDF_HEADERS_TRUE@	GfxFont.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	GfxState.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	GfxState_helpers.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	GlobalParams.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	Hints.h			\
-@ENABLE_XPDF_HEADERS_TRUE@	JArithmeticDecoder.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	JBIG2Stream.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	Lexer.h			\
-@ENABLE_XPDF_HEADERS_TRUE@	Linearization.h 	\
-@ENABLE_XPDF_HEADERS_TRUE@	Link.h			\
-@ENABLE_XPDF_HEADERS_TRUE@	LocalPDFDocBuilder.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	Movie.h                 \
-@ENABLE_XPDF_HEADERS_TRUE@	NameToCharCode.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	Object.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	OptionalContent.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	Outline.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	OutputDev.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	Page.h			\
-@ENABLE_XPDF_HEADERS_TRUE@	PageTransition.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	Parser.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	PDFDoc.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	PDFDocBuilder.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	PDFDocEncoding.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	PDFDocFactory.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	PopplerCache.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	ProfileData.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	PreScanOutputDev.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	PSTokenizer.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	Rendition.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	StdinCachedFile.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	StdinPDFDocBuilder.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	Stream-CCITT.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	Stream.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	StructElement.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	StructTreeRoot.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	UnicodeMap.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	UnicodeMapTables.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	UnicodeTypeTable.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	UnicodeCClassTables.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	UnicodeCompTables.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	UnicodeDecompTables.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	ViewerPreferences.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	XRef.h			\
-@ENABLE_XPDF_HEADERS_TRUE@	CharTypes.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	CompactFontTables.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	ErrorCodes.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	NameToUnicodeTable.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	PSOutputDev.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	TextOutputDev.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	SecurityHandler.h	\
-@ENABLE_XPDF_HEADERS_TRUE@	UTF.h			\
-@ENABLE_XPDF_HEADERS_TRUE@	UTF8.h			\
-@ENABLE_XPDF_HEADERS_TRUE@	XpdfPluginAPI.h		\
-@ENABLE_XPDF_HEADERS_TRUE@	Sound.h
-
-@ENABLE_XPDF_HEADERS_TRUE@nodist_poppler_include_HEADERS = poppler-config.h
-libpoppler_la_SOURCES = \
-	$(splash_sources)	\
-	$(cairo_sources)	\
-	$(libjpeg_sources)	\
-	$(zlib_sources)		\
-	$(libjpeg2000_sources)	\
-	$(curl_sources)		\
-	Annot.cc		\
-	Array.cc 		\
-	BuiltinFont.cc		\
-	BuiltinFontTables.cc	\
-	CachedFile.cc		\
-	Catalog.cc 		\
-	CharCodeToUnicode.cc	\
-	CMap.cc			\
-	DateInfo.cc		\
-	Decrypt.cc		\
-	Dict.cc 		\
-	Error.cc 		\
-	FileSpec.cc		\
-	FontEncodingTables.cc	\
-	Form.cc 		\
-	FontInfo.cc		\
-	Function.cc		\
-	Gfx.cc 			\
-	GfxFont.cc 		\
-	GfxState.cc		\
-	GlobalParams.cc		\
-	Hints.cc		\
-	JArithmeticDecoder.cc	\
-	JBIG2Stream.cc		\
-	Lexer.cc 		\
-	Linearization.cc 	\
-	Link.cc 		\
-	LocalPDFDocBuilder.cc	\
-	Movie.cc                \
-	NameToCharCode.cc	\
-	Object.cc 		\
-	OptionalContent.cc	\
-	Outline.cc		\
-	OutputDev.cc 		\
-	Page.cc 		\
-	PageTransition.cc	\
-	Parser.cc 		\
-	PDFDoc.cc 		\
-	PDFDocEncoding.cc	\
-	PDFDocFactory.cc	\
-	PopplerCache.cc		\
-	ProfileData.cc		\
-	PreScanOutputDev.cc \
-	PSTokenizer.cc		\
-	Rendition.cc		\
-	StdinCachedFile.cc	\
-	StdinPDFDocBuilder.cc	\
-	Stream.cc 		\
-	StructTreeRoot.cc	\
-	StructElement.cc	\
-	strtok_r.cpp		\
-	UnicodeMap.cc		\
-	UnicodeTypeTable.cc	\
-	UTF.cc                  \
-	ViewerPreferences.cc	\
-	XRef.cc			\
-	PSOutputDev.cc		\
-	TextOutputDev.cc	\
-	PageLabelInfo.h		\
-	PageLabelInfo.cc	\
-	SecurityHandler.cc	\
-	Sound.cc		\
-	XpdfPluginAPI.cc
-
-EXTRA_DIST = gen-unicode-tables.py	\
-             GlobalParamsWin.cc         \
-             PageLabelInfo_p.h
-
-all: poppler-config.h
-	$(MAKE) $(AM_MAKEFLAGS) all-am
+all: config.h
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
-.SUFFIXES: .cc .cpp .lo .o .obj
+am--refresh: Makefile
+	@:
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
-	      ( cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh ) \
-	        && { if test -f $@; then exit 0; else break; fi; }; \
+	      echo ' cd $(srcdir) && $(AUTOMAKE) --foreign'; \
+	      $(am__cd) $(srcdir) && $(AUTOMAKE) --foreign \
+		&& exit 0; \
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign poppler/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign poppler/Makefile
+	  $(AUTOMAKE) --foreign Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
-	    cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh;; \
+	    echo ' $(SHELL) ./config.status'; \
+	    $(SHELL) ./config.status;; \
 	  *) \
-	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)'; \
-	    cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe);; \
+	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe)'; \
+	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
 	esac;
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
+	$(SHELL) ./config.status --recheck
 
 $(top_srcdir)/configure:  $(am__configure_deps)
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
+	$(am__cd) $(srcdir) && $(AUTOCONF)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
-	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
+	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
 
-poppler-config.h: stamp-h2
-	@if test ! -f $@; then rm -f stamp-h2; else :; fi
-	@if test ! -f $@; then $(MAKE) $(AM_MAKEFLAGS) stamp-h2; else :; fi
+config.h: stamp-h1
+	@if test ! -f $@; then rm -f stamp-h1; else :; fi
+	@if test ! -f $@; then $(MAKE) $(AM_MAKEFLAGS) stamp-h1; else :; fi
 
-stamp-h2: $(srcdir)/poppler-config.h.in $(top_builddir)/config.status
-	@rm -f stamp-h2
-	cd $(top_builddir) && $(SHELL) ./config.status poppler/poppler-config.h
+stamp-h1: $(srcdir)/config.h.in $(top_builddir)/config.status
+	@rm -f stamp-h1
+	cd $(top_builddir) && $(SHELL) ./config.status config.h
+$(srcdir)/config.h.in:  $(am__configure_deps) 
+	($(am__cd) $(top_srcdir) && $(AUTOHEADER))
+	rm -f stamp-h1
+	touch $@
 
 distclean-hdr:
-	-rm -f poppler-config.h stamp-h2
-
-install-libLTLIBRARIES: $(lib_LTLIBRARIES)
-	@$(NORMAL_INSTALL)
-	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
-	list2=; for p in $$list; do \
-	  if test -f $$p; then \
-	    list2="$$list2 $$p"; \
-	  else :; fi; \
-	done; \
-	test -z "$$list2" || { \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(libdir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(libdir)" || exit 1; \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(libdir)'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(libdir)"; \
-	}
-
-uninstall-libLTLIBRARIES:
-	@$(NORMAL_UNINSTALL)
-	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
-	for p in $$list; do \
-	  $(am__strip_dir) \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(libdir)/$$f'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(libdir)/$$f"; \
-	done
-
-clean-libLTLIBRARIES:
-	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
-	@list='$(lib_LTLIBRARIES)'; \
-	locs=`for p in $$list; do echo $$p; done | \
-	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
-	      sort -u`; \
-	test -z "$$locs" || { \
-	  echo rm -f $${locs}; \
-	  rm -f $${locs}; \
-	}
-
-clean-noinstLTLIBRARIES:
-	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
-	@list='$(noinst_LTLIBRARIES)'; \
-	locs=`for p in $$list; do echo $$p; done | \
-	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
-	      sort -u`; \
-	test -z "$$locs" || { \
-	  echo rm -f $${locs}; \
-	  rm -f $${locs}; \
-	}
-
-libpoppler-cairo.la: $(libpoppler_cairo_la_OBJECTS) $(libpoppler_cairo_la_DEPENDENCIES) $(EXTRA_libpoppler_cairo_la_DEPENDENCIES) 
-	$(AM_V_CXXLD)$(CXXLINK) $(am_libpoppler_cairo_la_rpath) $(libpoppler_cairo_la_OBJECTS) $(libpoppler_cairo_la_LIBADD) $(LIBS)
-
-libpoppler.la: $(libpoppler_la_OBJECTS) $(libpoppler_la_DEPENDENCIES) $(EXTRA_libpoppler_la_DEPENDENCIES) 
-	$(AM_V_CXXLD)$(libpoppler_la_LINK) -rpath $(libdir) $(libpoppler_la_OBJECTS) $(libpoppler_la_LIBADD) $(LIBS)
-
-mostlyclean-compile:
-	-rm -f *.$(OBJEXT)
-
-distclean-compile:
-	-rm -f *.tab.c
-
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Annot.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Array.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BuiltinFont.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BuiltinFontTables.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CMap.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CachedFile.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CairoFontEngine.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CairoOutputDev.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CairoRescaleBox.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Catalog.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CharCodeToUnicode.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CurlCachedFile.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CurlPDFDocBuilder.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DCTStream.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DateInfo.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Decrypt.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Dict.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Error.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FileSpec.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FlateStream.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FontEncodingTables.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FontInfo.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Form.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Function.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Gfx.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GfxFont.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GfxState.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GlobalParams.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Hints.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/JArithmeticDecoder.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/JBIG2Stream.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/JPEG2000Stream.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/JPXStream.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Lexer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Linearization.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Link.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/LocalPDFDocBuilder.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Movie.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NameToCharCode.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Object.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/OptionalContent.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Outline.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/OutputDev.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PDFDoc.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PDFDocEncoding.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PDFDocFactory.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PSOutputDev.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PSTokenizer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Page.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PageLabelInfo.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PageTransition.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Parser.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PopplerCache.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PreScanOutputDev.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ProfileData.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Rendition.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SecurityHandler.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Sound.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SplashOutputDev.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/StdinCachedFile.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/StdinPDFDocBuilder.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Stream.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/StructElement.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/StructTreeRoot.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TextOutputDev.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/UTF.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/UnicodeMap.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/UnicodeTypeTable.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ViewerPreferences.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/XRef.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/XpdfPluginAPI.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strtok_r.Plo@am__quote@
-
-.cc.o:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
-
-.cc.obj:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
-
-.cc.lo:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
-
-.cpp.o:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
-
-.cpp.obj:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
-
-.cpp.lo:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
+	-rm -f config.h stamp-h1
+poppler.pc: $(top_builddir)/config.status $(srcdir)/poppler.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+poppler-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/poppler-uninstalled.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+poppler-cairo.pc: $(top_builddir)/config.status $(srcdir)/poppler-cairo.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+poppler-cairo-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/poppler-cairo-uninstalled.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+poppler-splash.pc: $(top_builddir)/config.status $(srcdir)/poppler-splash.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+poppler-splash-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/poppler-splash-uninstalled.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+poppler-glib.pc: $(top_builddir)/config.status $(srcdir)/poppler-glib.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+poppler-glib-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/poppler-glib-uninstalled.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+poppler-qt4.pc: $(top_builddir)/config.status $(srcdir)/poppler-qt4.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+poppler-qt4-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/poppler-qt4-uninstalled.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+poppler-qt5.pc: $(top_builddir)/config.status $(srcdir)/poppler-qt5.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+poppler-qt5-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/poppler-qt5-uninstalled.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+poppler-cpp.pc: $(top_builddir)/config.status $(srcdir)/poppler-cpp.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+poppler-cpp-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/poppler-cpp-uninstalled.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-nodist_poppler_includeHEADERS: $(nodist_poppler_include_HEADERS)
+
+distclean-libtool:
+	-rm -f libtool config.lt
+install-pkgconfigDATA: $(pkgconfig_DATA)
 	@$(NORMAL_INSTALL)
-	@list='$(nodist_poppler_include_HEADERS)'; test -n "$(poppler_includedir)" || list=; \
+	@list='$(pkgconfig_DATA)'; test -n "$(pkgconfigdir)" || list=; \
 	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(poppler_includedir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(poppler_includedir)" || exit 1; \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pkgconfigdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pkgconfigdir)" || exit 1; \
 	fi; \
 	for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  echo "$$d$$p"; \
 	done | $(am__base_list) | \
 	while read files; do \
-	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(poppler_includedir)'"; \
-	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(poppler_includedir)" || exit $$?; \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(pkgconfigdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(pkgconfigdir)" || exit $$?; \
 	done
 
-uninstall-nodist_poppler_includeHEADERS:
+uninstall-pkgconfigDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(nodist_poppler_include_HEADERS)'; test -n "$(poppler_includedir)" || list=; \
+	@list='$(pkgconfig_DATA)'; test -n "$(pkgconfigdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(poppler_includedir)'; $(am__uninstall_files_from_dir)
-install-poppler_includeHEADERS: $(poppler_include_HEADERS)
-	@$(NORMAL_INSTALL)
-	@list='$(poppler_include_HEADERS)'; test -n "$(poppler_includedir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(poppler_includedir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(poppler_includedir)" || exit 1; \
+	dir='$(DESTDIR)$(pkgconfigdir)'; $(am__uninstall_files_from_dir)
+
+# This directory's subdirectories are mostly independent; you can cd
+# into them and run 'make' without going through this Makefile.
+# To change the values of 'make' variables: instead of editing Makefiles,
+# (1) if the variable is set in 'config.status', edit 'config.status'
+#     (which will cause the Makefiles to be regenerated when you run 'make');
+# (2) otherwise, pass the desired values on the 'make' command line.
+$(am__recursive_targets):
+	@fail=; \
+	if $(am__make_keepgoing); then \
+	  failcom='fail=yes'; \
+	else \
+	  failcom='exit 1'; \
 	fi; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(poppler_includedir)'"; \
-	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(poppler_includedir)" || exit $$?; \
-	done
-
-uninstall-poppler_includeHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(poppler_include_HEADERS)'; test -n "$(poppler_includedir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(poppler_includedir)'; $(am__uninstall_files_from_dir)
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
+	case "$@" in \
+	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
+	  *) list='$(SUBDIRS)' ;; \
+	esac; \
+	for subdir in $$list; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    dot_seen=yes; \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  ($(am__cd) $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	  || eval $$failcom; \
+	done; \
+	if test "$$dot_seen" = "no"; then \
+	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	fi; test -z "$$fail"
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
-tags: tags-am
+tags: tags-recursive
 TAGS: tags
 
 tags-am: $(TAGS_DEPENDENCIES) $(am__tagged_files)
 	set x; \
 	here=`pwd`; \
+	if ($(ETAGS) --etags-include --version) >/dev/null 2>&1; then \
+	  include_option=--etags-include; \
+	  empty_fix=.; \
+	else \
+	  include_option=--include; \
+	  empty_fix=; \
+	fi; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  if test "$$subdir" = .; then :; else \
+	    test ! -f $$subdir/TAGS || \
+	      set "$$@" "$$include_option=$$here/$$subdir/TAGS"; \
+	  fi; \
+	done; \
 	$(am__define_uniq_tagged_files); \
 	shift; \
 	if test -z "$(ETAGS_ARGS)$$*$$unique"; then :; else \
@@ -1078,7 +698,7 @@ tags-am: $(TAGS_DEPENDENCIES) $(am__tagged_files)
 	      $$unique; \
 	  fi; \
 	fi
-ctags: ctags-am
+ctags: ctags-recursive
 
 CTAGS: ctags
 ctags-am: $(TAGS_DEPENDENCIES) $(am__tagged_files)
@@ -1091,7 +711,13 @@ GTAGS:
 	here=`$(am__cd) $(top_builddir) && pwd` \
 	  && $(am__cd) $(top_srcdir) \
 	  && gtags -i $(GTAGS_ARGS) "$$here"
-cscopelist: cscopelist-am
+cscope: cscope.files
+	test ! -s cscope.files \
+	  || $(CSCOPE) -b -q $(AM_CSCOPEFLAGS) $(CSCOPEFLAGS) -i cscope.files $(CSCOPE_ARGS)
+clean-cscope:
+	-rm -f cscope.files
+cscope.files: clean-cscope cscopelist
+cscopelist: cscopelist-recursive
 
 cscopelist-am: $(am__tagged_files)
 	list='$(am__tagged_files)'; \
@@ -1109,8 +735,11 @@ cscopelist-am: $(am__tagged_files)
 
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
+	-rm -f cscope.out cscope.in.out cscope.po.out cscope.files
 
 distdir: $(DISTFILES)
+	$(am__remove_distdir)
+	test -d "$(distdir)" || mkdir "$(distdir)"
 	@srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
 	list='$(DISTFILES)'; \
@@ -1140,22 +769,172 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
+	@list='$(DIST_SUBDIRS)'; for subdir in $$list; do \
+	  if test "$$subdir" = .; then :; else \
+	    $(am__make_dryrun) \
+	      || test -d "$(distdir)/$$subdir" \
+	      || $(MKDIR_P) "$(distdir)/$$subdir" \
+	      || exit 1; \
+	    dir1=$$subdir; dir2="$(distdir)/$$subdir"; \
+	    $(am__relativize); \
+	    new_distdir=$$reldir; \
+	    dir1=$$subdir; dir2="$(top_distdir)"; \
+	    $(am__relativize); \
+	    new_top_distdir=$$reldir; \
+	    echo " (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir="$$new_top_distdir" distdir="$$new_distdir" \\"; \
+	    echo "     am__remove_distdir=: am__skip_length_check=: am__skip_mode_fix=: distdir)"; \
+	    ($(am__cd) $$subdir && \
+	      $(MAKE) $(AM_MAKEFLAGS) \
+	        top_distdir="$$new_top_distdir" \
+	        distdir="$$new_distdir" \
+		am__remove_distdir=: \
+		am__skip_length_check=: \
+		am__skip_mode_fix=: \
+	        distdir) \
+	      || exit 1; \
+	  fi; \
+	done
+	-test -n "$(am__skip_mode_fix)" \
+	|| find "$(distdir)" -type d ! -perm -755 \
+		-exec chmod u+rwx,go+rx {} \; -o \
+	  ! -type d ! -perm -444 -links 1 -exec chmod a+r {} \; -o \
+	  ! -type d ! -perm -400 -exec chmod a+r {} \; -o \
+	  ! -type d ! -perm -444 -exec $(install_sh) -c -m a+r {} {} \; \
+	|| chmod -R a+r "$(distdir)"
+dist-gzip: distdir
+	tardir=$(distdir) && $(am__tar) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
+	$(am__post_remove_distdir)
+
+dist-bzip2: distdir
+	tardir=$(distdir) && $(am__tar) | BZIP2=$${BZIP2--9} bzip2 -c >$(distdir).tar.bz2
+	$(am__post_remove_distdir)
+
+dist-lzip: distdir
+	tardir=$(distdir) && $(am__tar) | lzip -c $${LZIP_OPT--9} >$(distdir).tar.lz
+	$(am__post_remove_distdir)
+
+dist-xz: distdir
+	tardir=$(distdir) && $(am__tar) | XZ_OPT=$${XZ_OPT--e} xz -c >$(distdir).tar.xz
+	$(am__post_remove_distdir)
+
+dist-tarZ: distdir
+	tardir=$(distdir) && $(am__tar) | compress -c >$(distdir).tar.Z
+	$(am__post_remove_distdir)
+
+dist-shar: distdir
+	shar $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).shar.gz
+	$(am__post_remove_distdir)
+
+dist-zip: distdir
+	-rm -f $(distdir).zip
+	zip -rq $(distdir).zip $(distdir)
+	$(am__post_remove_distdir)
+
+dist dist-all:
+	$(MAKE) $(AM_MAKEFLAGS) $(DIST_TARGETS) am__post_remove_distdir='@:'
+	$(am__post_remove_distdir)
+
+# This target untars the dist file and tries a VPATH configuration.  Then
+# it guarantees that the distribution is self-contained by making another
+# tarfile.
+distcheck: dist
+	case '$(DIST_ARCHIVES)' in \
+	*.tar.gz*) \
+	  GZIP=$(GZIP_ENV) gzip -dc $(distdir).tar.gz | $(am__untar) ;;\
+	*.tar.bz2*) \
+	  bzip2 -dc $(distdir).tar.bz2 | $(am__untar) ;;\
+	*.tar.lz*) \
+	  lzip -dc $(distdir).tar.lz | $(am__untar) ;;\
+	*.tar.xz*) \
+	  xz -dc $(distdir).tar.xz | $(am__untar) ;;\
+	*.tar.Z*) \
+	  uncompress -c $(distdir).tar.Z | $(am__untar) ;;\
+	*.shar.gz*) \
+	  GZIP=$(GZIP_ENV) gzip -dc $(distdir).shar.gz | unshar ;;\
+	*.zip*) \
+	  unzip $(distdir).zip ;;\
+	esac
+	chmod -R a-w $(distdir)
+	chmod u+w $(distdir)
+	mkdir $(distdir)/_build $(distdir)/_inst
+	chmod a-w $(distdir)
+	test -d $(distdir)/_build || exit 0; \
+	dc_install_base=`$(am__cd) $(distdir)/_inst && pwd | sed -e 's,^[^:\\/]:[\\/],/,'` \
+	  && dc_destdir="$${TMPDIR-/tmp}/am-dc-$$$$/" \
+	  && am__cwd=`pwd` \
+	  && $(am__cd) $(distdir)/_build \
+	  && ../configure --srcdir=.. --prefix="$$dc_install_base" \
+	    $(AM_DISTCHECK_CONFIGURE_FLAGS) \
+	    $(DISTCHECK_CONFIGURE_FLAGS) \
+	  && $(MAKE) $(AM_MAKEFLAGS) \
+	  && $(MAKE) $(AM_MAKEFLAGS) dvi \
+	  && $(MAKE) $(AM_MAKEFLAGS) check \
+	  && $(MAKE) $(AM_MAKEFLAGS) install \
+	  && $(MAKE) $(AM_MAKEFLAGS) installcheck \
+	  && $(MAKE) $(AM_MAKEFLAGS) uninstall \
+	  && $(MAKE) $(AM_MAKEFLAGS) distuninstallcheck_dir="$$dc_install_base" \
+	        distuninstallcheck \
+	  && chmod -R a-w "$$dc_install_base" \
+	  && ({ \
+	       (cd ../.. && umask 077 && mkdir "$$dc_destdir") \
+	       && $(MAKE) $(AM_MAKEFLAGS) DESTDIR="$$dc_destdir" install \
+	       && $(MAKE) $(AM_MAKEFLAGS) DESTDIR="$$dc_destdir" uninstall \
+	       && $(MAKE) $(AM_MAKEFLAGS) DESTDIR="$$dc_destdir" \
+	            distuninstallcheck_dir="$$dc_destdir" distuninstallcheck; \
+	      } || { rm -rf "$$dc_destdir"; exit 1; }) \
+	  && rm -rf "$$dc_destdir" \
+	  && $(MAKE) $(AM_MAKEFLAGS) dist \
+	  && rm -rf $(DIST_ARCHIVES) \
+	  && $(MAKE) $(AM_MAKEFLAGS) distcleancheck \
+	  && cd "$$am__cwd" \
+	  || exit 1
+	$(am__post_remove_distdir)
+	@(echo "$(distdir) archives ready for distribution: "; \
+	  list='$(DIST_ARCHIVES)'; for i in $$list; do echo $$i; done) | \
+	  sed -e 1h -e 1s/./=/g -e 1p -e 1x -e '$$p' -e '$$x'
+distuninstallcheck:
+	@test -n '$(distuninstallcheck_dir)' || { \
+	  echo 'ERROR: trying to run $@ with an empty' \
+	       '$$(distuninstallcheck_dir)' >&2; \
+	  exit 1; \
+	}; \
+	$(am__cd) '$(distuninstallcheck_dir)' || { \
+	  echo 'ERROR: cannot chdir into $(distuninstallcheck_dir)' >&2; \
+	  exit 1; \
+	}; \
+	test `$(am__distuninstallcheck_listfiles) | wc -l` -eq 0 \
+	   || { echo "ERROR: files left after uninstall:" ; \
+	        if test -n "$(DESTDIR)"; then \
+	          echo "  (check DESTDIR support)"; \
+	        fi ; \
+	        $(distuninstallcheck_listfiles) ; \
+	        exit 1; } >&2
+distcleancheck: distclean
+	@if test '$(srcdir)' = . ; then \
+	  echo "ERROR: distcleancheck can only run from a VPATH build" ; \
+	  exit 1 ; \
+	fi
+	@test `$(distcleancheck_listfiles) | wc -l` -eq 0 \
+	  || { echo "ERROR: files left in build directory after distclean:" ; \
+	       $(distcleancheck_listfiles) ; \
+	       exit 1; } >&2
 check-am: all-am
-check: check-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS) poppler-config.h
-installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(poppler_includedir)" "$(DESTDIR)$(poppler_includedir)"; do \
+check: check-recursive
+all-am: Makefile $(DATA) config.h
+installdirs: installdirs-recursive
+installdirs-am:
+	for dir in "$(DESTDIR)$(pkgconfigdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
-install: install-am
-install-exec: install-exec-am
-install-data: install-data-am
-uninstall: uninstall-am
+install: install-recursive
+install-exec: install-exec-recursive
+install-data: install-data-recursive
+uninstall: uninstall-recursive
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 
-installcheck: installcheck-am
+installcheck: installcheck-recursive
 install-strip:
 	if test -z '$(STRIP)'; then \
 	  $(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
@@ -1177,101 +956,115 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-clean: clean-am
+clean: clean-recursive
 
-clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
-	clean-noinstLTLIBRARIES mostlyclean-am
+clean-am: clean-generic clean-libtool mostlyclean-am
 
-distclean: distclean-am
-	-rm -rf ./$(DEPDIR)
+distclean: distclean-recursive
+	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -f Makefile
-distclean-am: clean-am distclean-compile distclean-generic \
-	distclean-hdr distclean-tags
+distclean-am: clean-am distclean-generic distclean-hdr \
+	distclean-libtool distclean-local distclean-tags
 
-dvi: dvi-am
+dvi: dvi-recursive
 
 dvi-am:
 
-html: html-am
+html: html-recursive
 
 html-am:
 
-info: info-am
+info: info-recursive
 
 info-am:
 
-install-data-am: install-nodist_poppler_includeHEADERS \
-	install-poppler_includeHEADERS
+install-data-am: install-pkgconfigDATA
 
-install-dvi: install-dvi-am
+install-dvi: install-dvi-recursive
 
 install-dvi-am:
 
-install-exec-am: install-libLTLIBRARIES
+install-exec-am:
 
-install-html: install-html-am
+install-html: install-html-recursive
 
 install-html-am:
 
-install-info: install-info-am
+install-info: install-info-recursive
 
 install-info-am:
 
 install-man:
 
-install-pdf: install-pdf-am
+install-pdf: install-pdf-recursive
 
 install-pdf-am:
 
-install-ps: install-ps-am
+install-ps: install-ps-recursive
 
 install-ps-am:
 
 installcheck-am:
 
-maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR)
+maintainer-clean: maintainer-clean-recursive
+	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
+	-rm -rf $(top_srcdir)/autom4te.cache
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
-mostlyclean: mostlyclean-am
+mostlyclean: mostlyclean-recursive
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool
+mostlyclean-am: mostlyclean-generic mostlyclean-libtool
 
-pdf: pdf-am
+pdf: pdf-recursive
 
 pdf-am:
 
-ps: ps-am
+ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES \
-	uninstall-nodist_poppler_includeHEADERS \
-	uninstall-poppler_includeHEADERS
+uninstall-am: uninstall-pkgconfigDATA
 
-.MAKE: all install-am install-strip
+.MAKE: $(am__recursive_targets) all install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
-	clean-libLTLIBRARIES clean-libtool clean-noinstLTLIBRARIES \
-	cscopelist-am ctags ctags-am distclean distclean-compile \
-	distclean-generic distclean-hdr distclean-libtool \
-	distclean-tags distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am \
-	install-libLTLIBRARIES install-man \
-	install-nodist_poppler_includeHEADERS install-pdf \
-	install-pdf-am install-poppler_includeHEADERS install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-libLTLIBRARIES \
-	uninstall-nodist_poppler_includeHEADERS \
-	uninstall-poppler_includeHEADERS
+.PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
+	am--refresh check check-am clean clean-cscope clean-generic \
+	clean-libtool cscope cscopelist-am ctags ctags-am dist \
+	dist-all dist-bzip2 dist-gzip dist-lzip dist-shar dist-tarZ \
+	dist-xz dist-zip distcheck distclean distclean-generic \
+	distclean-hdr distclean-libtool distclean-local distclean-tags \
+	distcleancheck distdir distuninstallcheck dvi dvi-am html \
+	html-am info info-am install install-am install-data \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-pkgconfigDATA install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs installdirs-am \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-pkgconfigDATA
 
+
+distclean-local:
+	if test "$(srcdir)" = "."; then :; else \
+		rm -f ChangeLog; \
+	fi
+
+ChangeLog:
+	$(AM_V_GEN) if test -d "$(srcdir)/.git"; then \
+	  (GIT_DIR=$(top_srcdir)/.git ./missing --run git log --stat) | fmt --split-only > $@.tmp \
+	  && mv -f $@.tmp $@ \
+	  || ($(RM) $@.tmp; \
+	      echo Failed to generate ChangeLog, your ChangeLog may be outdated >&2; \
+	      (test -f $@ || echo git log is required to generate this file >> $@)); \
+	else \
+	  test -f $@ || \
+	  (echo A git checkout and git log is required to generate ChangeLog >&2 && \
+	  echo A git checkout and git log is required to generate this file >> $@); \
+	fi
+
+.PHONY: ChangeLog
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
