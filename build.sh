@@ -69,17 +69,14 @@ popd
 do_link () {
 pushd web
 $EM_DIR/emcc \
-    -O1 \
+    -O2 \
     $POPPLER_DIR/utils/pdftoppm.o \
     $POPPLER_DIR/poppler/.libs/libpoppler.a \
     $POPPLER_DIR/utils/parseargs.o \
     $LIBPNG_DIR/.libs/libpng16.a \
     $ZLIB_DIR/libz.a \
     $FREETYPE_DIR/objs/.libs/libfreetype.a \
-    -o poppler.html \
-    --shell-file shell.html \
-    --post-js post.js \
-    --embed-file input.pdf \
+    -o poppler.js 
 
 popd
 }
