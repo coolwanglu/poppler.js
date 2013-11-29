@@ -1,9 +1,12 @@
 #!/bin/bash
+set -e
+
 EM_DIR=~/src/emscripten
 BASE_DIR=`pwd`
 ZLIB_DIR=$EM_DIR/tests/zlib
 LIBPNG_DIR=$BASE_DIR/libpng-1.6.7
 FREETYPE_DIR=$EM_DIR/tests/freetype
+POPPLER_DIR=$BASE_DIR/poppler-0.24.4
 
 do_zlib() {
 pushd $ZLIB_DIR
@@ -33,11 +36,10 @@ popd
 }
 
 do_poppler () {
-pushd poppler
-CPPFLAGS="-I$BASE_DIR/libpng-1.6.7" \
+pushd $POPPLER_DIR
 LIBPNG_CFLAGS="-I$BASE_DIR/libpng-1.6.7" \
 LIBPNG_LIBS=' ' \
-FONTCONFIG_CFLAGS=' ' \
+FONTCONFIG_CFLAGS="-I$BASE_DIR" \
 FONTCONFIG_LIBS=' ' \
 FREETYPE_CFLAGS="-I$EM_DIR/tests/freetype/include" \
 FREETYPE_LIBS=' ' \
@@ -65,13 +67,12 @@ popd
 
 
 do_link () {
-mkdir web || true
 pushd web
 $EM_DIR/emcc \
     -O1 \
-    ../poppler/utils/pdftoppm.o \
-    ../poppler/poppler/.libs/libpoppler.a \
-    ../poppler/utils/parseargs.o \
+    $POPPLER_DIR/utils/pdftoppm.o \
+    $POPPLER_DIR/poppler/.libs/libpoppler.a \
+    $POPPLER_DIR/utils/parseargs.o \
     $LIBPNG_DIR/.libs/libpng16.a \
     $ZLIB_DIR/libz.a \
     $FREETYPE_DIR/objs/.libs/libfreetype.a \
@@ -84,5 +85,5 @@ popd
 #do_zlib
 #do_libpng
 #do_freetype
-do_poppler
+#do_poppler
 do_link
