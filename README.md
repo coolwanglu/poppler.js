@@ -2,7 +2,7 @@
 
 Poppler compiled with emscripten
 
-by Lu Wang <coolwanglu(at)gmail.com>
+by Lu Wang 
 
 
 ### Limitations
