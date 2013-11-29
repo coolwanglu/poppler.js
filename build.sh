@@ -76,8 +76,10 @@ $EM_DIR/emcc \
     $LIBPNG_DIR/.libs/libpng16.a \
     $ZLIB_DIR/libz.a \
     $FREETYPE_DIR/objs/.libs/libfreetype.a \
-    -o pdftoppm.js \
-    --embed-file paper.pdf \
+    -o poppler.html \
+    --shell-file shell.html \
+    --post-js post.js \
+    --embed-file input.pdf \
 
 popd
 }
