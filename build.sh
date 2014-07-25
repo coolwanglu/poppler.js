@@ -71,17 +71,20 @@ popd
 
 
 do_link () {
-pushd web
+mkdir web || true
 $EM_DIR/emcc \
     -Oz \
-    --llvm-opt 1 \
+    --llvm-lto 1 \
+    -s EXPORTED_FUNCTIONS="['_POPPLERJS_init', '_POPPLERJS_Doc_new', '_POPPLERJS_Doc_delete', '_POPPLERJS_Doc_get_page_count', '_POPPLERJS_Doc_get_page', '_POPPLERJS_Page_get_width', '_POPPLERJS_Page_get_height', '_POPPLERJS_Page_get_bitmap', '_POPPLERJS_Bitmap_get_buffer', '_POPPLERJS_Bitmap_get_row_size', '_POPPLERJS_Bitmap_destroy', '_POPPLERJS_Page_destroy']" \
+    -o web/poppler.js \
+    -I$POPPLER_DIR \
+    -I$POPPLER_DIR/poppler \
+    poppler.js/poppler.js.cc \
     $POPPLER_DIR/poppler/.libs/libpoppler.a \
     $FREETYPE_DIR/objs/.libs/libfreetype.a \
-    -o poppler.js 
 
-popd
 }
 
-do_freetype
-do_poppler
-#do_link
+#do_freetype
+#do_poppler
+do_link
