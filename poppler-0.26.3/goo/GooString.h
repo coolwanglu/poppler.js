@@ -39,7 +39,8 @@
 #include "gtypes.h"
 
 #ifdef __clang__
-# define GOOSTRING_FORMAT __attribute__((__annotate__("gooformat")))
+//# define GOOSTRING_FORMAT __attribute__((__annotate__("gooformat")))
+# define GOOSTRING_FORMAT
 #else
 # define GOOSTRING_FORMAT
 #endif

@@ -14,8 +14,8 @@ struct {
   SplashColor paperColor;
 } global;
 
-struct POPPLERJS_Doc {
-  POPPLERJS_Doc(const char * filename) 
+struct PopplerJS_Doc {
+  PopplerJS_Doc(const char * filename) 
   {
     GooString s(filename);
     doc = PDFDocFactory().createPDFDoc(s, NULL, NULL);
@@ -24,7 +24,7 @@ struct POPPLERJS_Doc {
     splashOut->startDoc(doc);
   }
 
-  ~POPPLERJS_Doc()
+  ~PopplerJS_Doc()
   {
     delete doc;
     delete splashOut;
@@ -35,8 +35,8 @@ struct POPPLERJS_Doc {
   int page_count;
 };
 
-struct POPPLERJS_Page {
-  POPPLERJS_Page(POPPLERJS_Doc *doc, int page_no)
+struct PopplerJS_Page {
+  PopplerJS_Page(PopplerJS_Doc *doc, int page_no)
     : doc(doc), page_no(page_no)
   { 
     width = doc->doc->getPageCropWidth(page_no);
@@ -50,88 +50,77 @@ struct POPPLERJS_Page {
     }
   }
 
-  POPPLERJS_Doc * doc;
+  PopplerJS_Doc * doc;
   int page_no;
   int width;
   int height;
 };
 
 extern "C"
-void POPPLERJS_init() {
+void PopplerJS_init() {
   global.globalParams = new GlobalParams();
-  if (!global.globalParams->setEnableFreeType((char*)"yes")) {
-    fprintf(stderr, "Cannot enable freetype\n");
-  }
-  if (!global.globalParams->setAntialias((char*)"yes")) {
-    fprintf(stderr, "Cannot enable font antialiasing\n");
-  }
-  if (!global.globalParams->setVectorAntialias((char*)"yes")) {
-    fprintf(stderr, "Cannot enable vector antialiasing\n");
-  }
-  // globalParams->setErrQuiet(quiet);
- 
   global.paperColor[0] = 255;
   global.paperColor[1] = 255;
   global.paperColor[2] = 255;
 }
 
 extern "C"
-POPPLERJS_Doc *POPPLERJS_Doc_new(const char * filename) {
-  return new POPPLERJS_Doc(filename);
+PopplerJS_Doc *PopplerJS_Doc_new(const char * filename) {
+  return new PopplerJS_Doc(filename);
 }
 
 extern "C"
-void POPPLERJS_Doc_delete(POPPLERJS_Doc *doc) {
+void PopplerJS_Doc_delete(PopplerJS_Doc *doc) {
   delete doc;
 }
 
 extern "C"
-int POPPLERJS_Doc_get_page_count(POPPLERJS_Doc *doc) {
+int PopplerJS_Doc_get_page_count(PopplerJS_Doc *doc) {
   return doc->page_count;
 }
 
 extern "C"
-POPPLERJS_Page *POPPLERJS_Doc_get_page(POPPLERJS_Doc *doc, int page_no) {
-  return new POPPLERJS_Page(doc, page_no);
+PopplerJS_Page *PopplerJS_Doc_get_page(PopplerJS_Doc *doc, int page_no) {
+  return new PopplerJS_Page(doc, page_no);
 }
 
 extern "C"
-int POPPLERJS_Page_get_width(POPPLERJS_Page *page) {
+int PopplerJS_Page_get_width(PopplerJS_Page *page) {
   return page->width;
 }
 
 extern "C"
-int POPPLERJS_Page_get_height(POPPLERJS_Page *page) {
+int PopplerJS_Page_get_height(PopplerJS_Page *page) {
   return page->height;
 }
 
 extern "C"
-SplashBitmap *POPPLERJS_Page_get_bitmap(POPPLERJS_Page *page, int width, int height) {
-  page->doc->doc->displayPageSlice(page->doc->splashOut, 
-      page->page_no, 72.0, 72.0,
+SplashBitmap *PopplerJS_Page_get_bitmap(PopplerJS_Page *page, int width, int height) {
+  page->doc->doc->displayPage(page->doc->splashOut, page->page_no, 
+      72.0 * width / page->width, 72.0 * height / page->height,
       0,
-      gFalse, gFalse, gFalse,
-      0, 0, width, height
+      gFalse, gTrue, gFalse,
+      NULL, NULL, NULL, NULL
   );
 
   return page->doc->splashOut->getBitmap();
 }
 
 extern "C"
-int POPPLERJS_Bitmap_get_row_size(SplashBitmap *bitmap) {
+int PopplerJS_Bitmap_get_row_size(SplashBitmap *bitmap) {
   return bitmap->getRowSize();
 }
 
 extern "C"
-const char *POPPLERJS_Bitmap_get_buffer(SplashBitmap *bitmap) {
+const char *PopplerJS_Bitmap_get_buffer(SplashBitmap *bitmap) {
   return reinterpret_cast<const char*>(bitmap->getDataPtr());
 }
 
 extern "C"
-void POPPLERJS_Bitmap_destroy(SplashBitmap *bitmap) {
+void PopplerJS_Bitmap_destroy(SplashBitmap *bitmap) {
 }
 
 extern "C"
-void POPPLERJS_Page_destroy(POPPLERJS_Page *page) {
+void PopplerJS_Page_destroy(PopplerJS_Page *page) {
   delete page;
 }
